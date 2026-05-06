@@ -269,19 +269,19 @@ export default function Home() {
               </ul>
             </div>
             <div className="p-6 rounded-xl bg-gray-800/50 border border-gray-700">
-              <div className="text-yellow-400 font-semibold text-sm mb-3">Mungkin Belum Perlu Kalau:</div>
+              <div className="text-yellow-400 font-semibold text-sm mb-3">Belum Perlu? Kami Sarankan Ini Dulu:</div>
               <ul className="space-y-2 text-sm text-gray-300">
-                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Baru mulai usaha, transaksi masih sedikit</li>
-                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Cukup pakai spreadsheet atau catatan manual</li>
-                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Tim masih 1-2 orang, belum butuh HRIS</li>
-                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Budget lebih baik dialokasikan untuk marketing dulu</li>
-                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Proses bisnis belum stabil, masih sering berubah</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Baru mulai? Pakai <span className="text-white font-medium">Excel / Google Sheets</span> untuk catat penjualan</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Tim kecil? <span className="text-white font-medium">WhatsApp Group</span> cukup untuk koordinasi</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Keuangan simpel? <span className="text-white font-medium">Buku kas manual</span> atau app catatan</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Budget terbatas? Fokus ke <span className="text-white font-medium">marketing & produk</span> dulu</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Nanti kalau sudah kompleks, kami siap bantu migrasi ke SaaS</li>
               </ul>
             </div>
           </div>
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm mb-4">
-              Tidak yakin? Konsultasi gratis. Kami bantu analisa dan kasih rekomendasi jujur.
+              Mulai dari yang sederhana. Kalau bisnis sudah kompleks dan tools manual jadi bottleneck, kami siap buatkan solusi SaaS yang pas. Konsultasi gratis, tanpa commitment.
             </p>
             <a
               href="mailto:info@saranatechnology.com"
