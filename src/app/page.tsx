@@ -248,6 +248,51 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Honest Consulting */}
+      <section className="py-16 px-4 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Konsultasi Jujur, Bukan Jualan</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Kami tidak langsung menyarankan bikin aplikasi. Kami bantu analisa dulu apakah bisnis kamu memang sudah butuh solusi digital, atau ada cara yang lebih sederhana.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-xl bg-gray-800/50 border border-gray-700">
+              <div className="text-green-400 font-semibold text-sm mb-3">Kamu Butuh Aplikasi Kalau:</div>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li className="flex gap-2"><span className="text-green-400">&#10003;</span>Operasional harian sudah kompleks (multi staff, multi outlet)</li>
+                <li className="flex gap-2"><span className="text-green-400">&#10003;</span>Sering salah hitung stok atau keuangan</li>
+                <li className="flex gap-2"><span className="text-green-400">&#10003;</span>Butuh data real-time untuk keputusan bisnis</li>
+                <li className="flex gap-2"><span className="text-green-400">&#10003;</span>Mau scale tapi proses manual jadi bottleneck</li>
+                <li className="flex gap-2"><span className="text-green-400">&#10003;</span>Pelanggan mulai banyak dan perlu loyalty program</li>
+              </ul>
+            </div>
+            <div className="p-6 rounded-xl bg-gray-800/50 border border-gray-700">
+              <div className="text-yellow-400 font-semibold text-sm mb-3">Mungkin Belum Perlu Kalau:</div>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Baru mulai usaha, transaksi masih sedikit</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Cukup pakai spreadsheet atau catatan manual</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Tim masih 1-2 orang, belum butuh HRIS</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Budget lebih baik dialokasikan untuk marketing dulu</li>
+                <li className="flex gap-2"><span className="text-yellow-400">&#9679;</span>Proses bisnis belum stabil, masih sering berubah</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <p className="text-gray-400 text-sm mb-4">
+              Tidak yakin? Konsultasi gratis. Kami bantu analisa dan kasih rekomendasi jujur.
+            </p>
+            <a
+              href="mailto:info@saranatechnology.com"
+              className="inline-block border border-gray-600 text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-800 transition text-sm font-medium"
+            >
+              Konsultasi Gratis
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Cloudfix Product Section */}
       <section id="cloudfix" className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center mb-16">
