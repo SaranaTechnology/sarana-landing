@@ -174,22 +174,76 @@ export default function Home() {
             <div className="text-3xl mb-3">&#9889;</div>
             <h3 className="font-semibold mb-2">Digital Accelerator</h3>
             <p className="text-sm text-gray-500">
-              Mempercepat transformasi digital bisnis dan institusi dengan solusi teknologi yang tepat guna.
+              Bukan software house biasa. Kami mempercepat transformasi digital dengan produk siap pakai + konsultasi strategis.
             </p>
           </div>
           <div className="p-6">
             <div className="text-3xl mb-3">&#128736;</div>
             <h3 className="font-semibold mb-2">IT Consultant</h3>
             <p className="text-sm text-gray-500">
-              Konsultasi arsitektur sistem, cloud infrastructure, dan strategi teknologi untuk scale.
+              Konsultasi digitalisasi bisnis, arsitektur sistem, cloud infrastructure, dan strategi teknologi untuk scale.
             </p>
           </div>
           <div className="p-6">
-            <div className="text-3xl mb-3">&#128187;</div>
-            <h3 className="font-semibold mb-2">Product Builder</h3>
+            <div className="text-3xl mb-3">&#128221;</div>
+            <h3 className="font-semibold mb-2">Smart Agile Contract</h3>
             <p className="text-sm text-gray-500">
-              Membangun produk SaaS dari nol sampai production. Full-stack: backend, frontend, mobile, AI.
+              Tidak ada yang saling tunggu. Revisi dan feedback di setiap sprint, bukan di akhir. Progres transparan, delivery cepat.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Us */}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Kenapa Sarana, Bukan Software House?</h2>
+            <p className="text-gray-500 text-sm">Pendekatan kami berbeda dari jasa pembuatan software biasa.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="flex gap-4 p-5 rounded-xl border border-gray-100">
+              <div className="text-red-400 text-lg mt-0.5">&#10007;</div>
+              <div>
+                <div className="font-medium text-gray-400 text-sm mb-1">Software House</div>
+                <p className="text-sm text-gray-500">Biaya puluhan juta, development berbulan-bulan, revisi di akhir, maintenance bayar lagi.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-5 rounded-xl border border-blue-100 bg-blue-50/30">
+              <div className="text-green-500 text-lg mt-0.5">&#10003;</div>
+              <div>
+                <div className="font-medium text-blue-700 text-sm mb-1">Sarana Technology</div>
+                <p className="text-sm text-gray-600">Produk SaaS siap pakai, langganan terjangkau, update gratis, langsung pakai hari ini.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-5 rounded-xl border border-gray-100">
+              <div className="text-red-400 text-lg mt-0.5">&#10007;</div>
+              <div>
+                <div className="font-medium text-gray-400 text-sm mb-1">Kontrak Waterfall</div>
+                <p className="text-sm text-gray-500">Nunggu berbulan-bulan, baru lihat hasilnya di akhir. Revisi mahal dan lama.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-5 rounded-xl border border-blue-100 bg-blue-50/30">
+              <div className="text-green-500 text-lg mt-0.5">&#10003;</div>
+              <div>
+                <div className="font-medium text-blue-700 text-sm mb-1">Smart Agile Contract</div>
+                <p className="text-sm text-gray-600">Setiap sprint ada delivery. Feedback langsung, revisi terus-menerus. Tidak ada yang saling menunggu.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-5 rounded-xl border border-gray-100">
+              <div className="text-red-400 text-lg mt-0.5">&#10007;</div>
+              <div>
+                <div className="font-medium text-gray-400 text-sm mb-1">Outsource Team</div>
+                <p className="text-sm text-gray-500">Tim beda-beda tiap project. Tidak paham domain bisnis klien.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-5 rounded-xl border border-blue-100 bg-blue-50/30">
+              <div className="text-green-500 text-lg mt-0.5">&#10003;</div>
+              <div>
+                <div className="font-medium text-blue-700 text-sm mb-1">Pengalaman Lintas Industri</div>
+                <p className="text-sm text-gray-600">FnB, pendidikan, aksesibilitas. Full-stack + AI. Satu tim dari konsultasi sampai production.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
