@@ -19,6 +19,12 @@ const portfolios = [
     url: "https://disabilitasku.id",
     tag: "Sosial & AI",
   },
+  {
+    name: "KemakananKu",
+    desc: "E-commerce yang fokus di makanan & kuliner Indonesia. Marketplace khusus produk FnB dari UKM lokal.",
+    url: "#",
+    tag: "Coming Soon",
+  },
 ];
 
 const cloudfixFeatures = [
@@ -104,7 +110,7 @@ const plans = [
       "Priority support",
     ],
     cta: "Hubungi Kami",
-    href: "/register?plan=pro",
+    href: "/proposal",
     popular: false,
   },
 ];
@@ -306,12 +312,12 @@ export default function Home() {
             <p className="text-gray-400 text-sm mb-4">
               Mulai dari yang sederhana. Kalau bisnis sudah kompleks dan tools manual jadi bottleneck, kami siap buatkan solusi SaaS yang pas. Konsultasi gratis, tanpa commitment.
             </p>
-            <a
-              href="mailto:info@saranatechnology.com"
+            <Link
+              href="/proposal"
               className="inline-block border border-gray-600 text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-800 transition text-sm font-medium"
             >
-              Konsultasi Gratis
-            </a>
+              Ajukan Proposal Gratis
+            </Link>
           </div>
         </div>
       </section>
@@ -464,12 +470,12 @@ export default function Home() {
             >
               Coba Cloudfix Gratis
             </Link>
-            <a
-              href="mailto:info@saranatechnology.com"
+            <Link
+              href="/proposal"
               className="border border-gray-600 text-gray-300 text-lg px-10 py-4 rounded-xl hover:bg-gray-800 transition font-medium"
             >
-              Hubungi Kami
-            </a>
+              Ajukan Proposal
+            </Link>
           </div>
         </div>
       </section>
@@ -501,7 +507,7 @@ export default function Home() {
           <div>
             <div className="font-medium mb-3 text-sm">Kontak</div>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li>info@saranatechnology.com</li>
+              <li>WhatsApp: +62 859-7411-8829</li>
               <li>
                 <Link href="/login" className="hover:text-gray-900">Masuk</Link>
                 {" / "}

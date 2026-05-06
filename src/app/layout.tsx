@@ -31,6 +31,20 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${geist.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-white text-gray-900">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Sarana Technology",
+              url: "https://saranatechnology.com",
+              description: "Digital Accelerator & IT Consultant. Mempercepat pertumbuhan bisnis digital.",
+              contactPoint: { "@type": "ContactPoint", telephone: "+62-859-7411-8829", contactType: "sales" },
+              sameAs: [],
+            }),
+          }}
+        />
         {children}
       </body>
     </html>
