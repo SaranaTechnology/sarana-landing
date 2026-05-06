@@ -8,16 +8,17 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Cloudfix — ERP Lengkap untuk UKM FnB",
+  title: "Sarana Technology — Digital Accelerator & IT Consultant",
   description:
-    "Kelola POS, inventori, keuangan, dan karyawan dalam satu platform. Dibuat khusus untuk restoran, kafe, dan usaha kuliner.",
-  keywords: "ERP, UKM, FnB, POS, restoran, kafe, inventori, keuangan, HRIS",
+    "Sarana Technology membangun solusi digital untuk bisnis, pendidikan, dan sosial. Produk: Cloudfix ERP untuk UKM FnB. Portofolio: Smart School, SGP, DisabilitasKu.",
+  keywords:
+    "Sarana Technology, digital accelerator, IT consultant, Cloudfix, ERP, UKM, FnB, POS, Smart School, DisabilitasKu",
   openGraph: {
-    title: "Cloudfix — ERP Lengkap untuk UKM FnB",
+    title: "Sarana Technology — Digital Accelerator & IT Consultant",
     description:
-      "Kelola POS, inventori, keuangan, dan karyawan dalam satu platform.",
+      "Solusi digital untuk bisnis, pendidikan, dan sosial. Produk unggulan: Cloudfix ERP untuk UKM FnB.",
     url: "https://saranatechnology.com",
-    siteName: "Cloudfix by Sarana Technology",
+    siteName: "Sarana Technology",
     type: "website",
   },
 };
