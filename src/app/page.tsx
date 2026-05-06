@@ -4,7 +4,7 @@ const portfolios = [
   {
     name: "Smart School",
     desc: "Platform manajemen sekolah: akademik, kesiswaan, guru, keuangan, perpustakaan. Digunakan oleh SD & SMP.",
-    url: "https://pendidikancerdas.com",
+    url: "https://smart.sch.id",
     tag: "Pendidikan",
   },
   {
@@ -499,7 +499,7 @@ export default function Home() {
           <div>
             <div className="font-medium mb-3 text-sm">Portofolio</div>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><a href="https://pendidikancerdas.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">Smart School</a></li>
+              <li><a href="https://smart.sch.id" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">Smart School</a></li>
               <li><a href="https://sgp.pendidikancerdas.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">SGP</a></li>
               <li><a href="https://disabilitasku.id" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900">DisabilitasKu</a></li>
             </ul>
