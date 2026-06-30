@@ -513,6 +513,9 @@ export default function Home() {
                 {" / "}
                 <Link href="/register" className="hover:text-gray-900">Daftar</Link>
               </li>
+              <li>
+                <Link href="/developers" className="hover:text-gray-900">Dokumentasi Developer API</Link>
+              </li>
             </ul>
           </div>
         </div>

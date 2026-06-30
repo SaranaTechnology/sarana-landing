@@ -1,0 +1,210 @@
+export const metadata = {
+  title: "Dokumentasi Developer — Sarana Payment API",
+  description:
+    "Panduan integrasi server-to-server ke payment gateway Sarana memakai API key: autentikasi, pembayaran (VA, QRIS, e-wallet, invoice), biaya, transaksi, penarikan, dan webhook.",
+  alternates: { canonical: "/developers" },
+  openGraph: {
+    title: "Dokumentasi Developer — Sarana Payment API",
+    description:
+      "Integrasi payment gateway Sarana pakai API key. Quickstart, autentikasi, dan referensi endpoint.",
+    url: "https://saranatechnology.com/developers",
+    type: "article",
+  },
+};
+
+# Dokumentasi Developer — Sarana Payment API
+
+Integrasi **server-to-server** ke payment gateway Sarana memakai **API key**.
+Surface developer berada di **`/api/v2`** (Client / Developer API).
+
+- **Base URL:** `https://api.internal-go.saranatechnology.com/api/v2`
+- **Referensi interaktif (Swagger UI):** [`/api/v2/docs`](https://api.internal-go.saranatechnology.com/api/v2/docs)
+- **Spec OpenAPI mentah:** [`/api/v2/docs/openapi.yaml`](https://api.internal-go.saranatechnology.com/api/v2/docs/openapi.yaml)
+
+> Swagger adalah **sumber kebenaran** untuk request/response tiap endpoint.
+> Halaman ini panduan *getting started* yang merangkumnya.
+
+## 1. Mendapatkan API key
+
+Satu client = **satu** API key aktif. Generate ulang akan **mengganti** key lama
+(key lama langsung non-aktif). Dua cara memperolehnya:
+
+| Jalur | Siapa | Syarat |
+|-------|-------|--------|
+| **Portal klien** (self-service) | Client sendiri di `client.saranatechnology.com` → menu **API Keys** | Akun harus punya akses developer (di-approve admin) |
+| **Admin panel** | Admin Sarana menerbitkan untuk client | Tidak ada — admin bisa untuk client mana pun |
+
+Akses developer adalah izin sisi client: hanya client dengan akses developer yang
+boleh men-generate key-nya sendiri lewat portal. Key yang sudah terbit tetap valid
+dipakai tanpa bergantung pada flag tersebut.
+
+Format key: `sk_live_` + 48 karakter heksadesimal. **Simpan baik-baik** — key penuh
+hanya ditampilkan **sekali** saat dibuat.
+
+## 2. Autentikasi
+
+Sertakan API key pada header **`X-API-Key`** di setiap request:
+
+```
+X-API-Key: sk_live_<48-karakter-hex-key-anda>
+```
+
+Tanpa key yang valid & aktif → `401 Unauthorized`.
+
+> API key khusus untuk endpoint integrasi (payments, fees, withdrawals, transactions).
+> Endpoint portal (login, tiket, dsb.) memakai **Bearer token**, bukan API key.
+
+## 3. Format response
+
+Semua response memakai envelope seragam:
+
+```json
+{
+  "success": true,
+  "message": "...",
+  "code": 200,
+  "data": { },
+  "meta": { "total": 0, "per_page": 10, "current_page": 1, "last_page": 1 }
+}
+```
+
+`meta` hanya muncul pada endpoint berpaginasi. Saat error, `success=false` dan
+`message` berisi alasannya, `code` = HTTP status.
+
+| Code | Arti |
+|------|------|
+| 400 | Request tidak valid (field wajib kosong / salah format) |
+| 401 | API key tidak ada / tidak valid |
+| 404 | Resource tidak ditemukan |
+| 500 | Kesalahan server |
+
+## 4. Quickstart — membuat pembayaran
+
+Simpan key sebagai environment variable agar tidak ikut tercatat:
+
+```bash
+export SARANA_API_KEY="sk_live_<48-karakter-hex-key-anda>"
+```
+
+### Virtual Account
+
+```bash
+curl -X POST https://api.internal-go.saranatechnology.com/api/v2/payments/va \
+  -H "X-API-Key: $SARANA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "client_id": 123,
+    "amount": 150000,
+    "bank_code": "BCA",
+    "customer_name": "Budi Santoso"
+  }'
+```
+
+Response `201` berisi nomor VA yang ditampilkan ke pembeli.
+
+### QRIS
+
+```bash
+curl -X POST .../api/v2/payments/qris \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{ "client_id": 123, "amount": 50000 }'
+```
+
+Response berisi `qr_string` untuk dirender sebagai QR.
+
+### E-wallet
+
+```bash
+curl -X POST .../api/v2/payments/ewallet \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{
+    "client_id": 123, "amount": 75000,
+    "channel_code": "DANA", "customer_phone": "08123456789",
+    "success_url": "https://toko-anda.com/selesai"
+  }'
+```
+
+Response berisi link / deeplink pembayaran (`OVO`, `DANA`, `SHOPEEPAY`, `LINKAJA`).
+
+### Invoice
+
+```bash
+curl -X POST .../api/v2/payments/invoice \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{ "client_id": 123, "amount": 250000 }'
+```
+
+### Cek status pembayaran
+
+```bash
+curl .../api/v2/payments/{id}/status -H "X-API-Key: $SARANA_API_KEY"
+```
+
+Daftar metode tersedia: `GET .../api/v2/payments/methods`.
+
+## 5. Menghitung biaya (fees)
+
+Hitung biaya sebelum membuat transaksi:
+
+```bash
+curl -X POST .../api/v2/fees/calculate \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{ "client_id": 123, "amount": 150000, "payment_method": "VA" }'
+```
+
+Endpoint fee lain: `/fees/rates`, `/fees/calculate/bulk`, `/fees/calculate/vat`,
+`/fees/calculate/withdrawal`, `/fees/calculate/amount-to-pay`. Lihat Swagger untuk
+parameter masing-masing.
+
+## 6. Transaksi & saldo
+
+```bash
+# List transaksi (paginated: ?page=1&per_page=20)
+curl ".../api/v2/transactions?page=1&per_page=20" -H "X-API-Key: $SARANA_API_KEY"
+
+# Detail per id internal
+curl .../api/v2/transactions/{id} -H "X-API-Key: $SARANA_API_KEY"
+
+# Cari berdasarkan external id Anda
+curl .../api/v2/transactions/external/{externalId} -H "X-API-Key: $SARANA_API_KEY"
+
+# Saldo client
+curl .../api/v2/clients/{id}/balance -H "X-API-Key: $SARANA_API_KEY"
+```
+
+## 7. Penarikan dana (withdrawals) & settlement
+
+```bash
+# Buat penarikan
+curl -X POST .../api/v2/withdrawals \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{ "client_id": 123, "amount": 1000000 }'
+
+# Cek / batalkan
+curl .../api/v2/withdrawals/{id} -H "X-API-Key: $SARANA_API_KEY"
+curl -X POST .../api/v2/withdrawals/{id}/cancel -H "X-API-Key: $SARANA_API_KEY"
+
+# Settlement
+curl -X POST .../api/v2/settlements \
+  -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
+  -d '{ "client_id": 123, "amount": 500000 }'
+```
+
+Daftar bank untuk penarikan: `GET .../api/v2/bank-channels/active`.
+
+> Bentuk body persis (field opsional, validasi norek/bank) ada di Swagger.
+
+## 8. Webhook / callback
+
+Sarana mengirim notifikasi status ke endpoint Anda. Jenis callback yang tersedia
+(lihat Swagger bagian *Callbacks*): pembayaran, transaksi, withdrawal, disbursement.
+Verifikasi setiap callback dengan token webhook yang dikonfigurasi, lalu **selalu**
+balas cepat (`2xx`) dan proses secara asinkron.
+
+## 9. Ringkas
+
+1. Dapatkan API key (portal bila punya akses developer, atau minta admin).
+2. Kirim `X-API-Key` di setiap request ke `…/api/v2/…`.
+3. Buat pembayaran → tampilkan instruksi ke pembeli → tunggu callback / poll status.
+4. Tarik saldo via `/withdrawals`.
+5. Referensi lengkap & coba langsung: [`/api/v2/docs`](https://api.internal-go.saranatechnology.com/api/v2/docs).
