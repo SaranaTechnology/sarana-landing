@@ -41,6 +41,13 @@ dipakai tanpa bergantung pada flag tersebut.
 Format key: `sk_live_` + 48 karakter heksadesimal. **Simpan baik-baik** — key penuh
 hanya ditampilkan **sekali** saat dibuat.
 
+> **Key per-client, bukan per-app.** Satu client bisa punya **banyak apps**, tapi API
+> key dimiliki di level **client** — satu key dipakai untuk semua apps client tersebut.
+> Anda **tidak perlu** generate key per-app. `client_id` juga otomatis diambil dari key,
+> jadi tidak perlu dikirim di body request. Saat client punya >1 app, sertakan `app_id`
+> pada request pembayaran agar biaya transaksi (transaction_fee) yang benar dipakai —
+> lihat bagian **Apps**.
+
 ## 2. Autentikasi
 
 Sertakan API key pada header **`X-API-Key`** di setiap request:
@@ -86,6 +93,10 @@ Simpan key sebagai environment variable agar tidak ikut tercatat:
 export SARANA_API_KEY="sk_live_<48-karakter-hex-key-anda>"
 ```
 
+> `client_id` **tidak perlu** dikirim — diambil dari API key. Bila client punya
+> lebih dari satu app, sertakan `app_id` (lihat bagian **Apps**) agar
+> transaction_fee app yang benar dipakai.
+
 ### Virtual Account
 
 ```bash
@@ -93,7 +104,7 @@ curl -X POST https://api.internal-go.saranatechnology.com/api/v2/payments/va \
   -H "X-API-Key: $SARANA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "client_id": 123,
+    "app_id": 45,
     "amount": 150000,
     "bank_code": "BCA",
     "customer_name": "Budi Santoso"
@@ -107,7 +118,7 @@ Response `201` berisi nomor VA yang ditampilkan ke pembeli.
 ```bash
 curl -X POST .../api/v2/payments/qris \
   -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
-  -d '{ "client_id": 123, "amount": 50000 }'
+  -d '{ "app_id": 45, "amount": 50000 }'
 ```
 
 Response berisi `qr_string` untuk dirender sebagai QR.
@@ -118,7 +129,7 @@ Response berisi `qr_string` untuk dirender sebagai QR.
 curl -X POST .../api/v2/payments/ewallet \
   -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
   -d '{
-    "client_id": 123, "amount": 75000,
+    "app_id": 45, "amount": 75000,
     "channel_code": "DANA", "customer_phone": "08123456789",
     "success_url": "https://toko-anda.com/selesai"
   }'
@@ -131,7 +142,7 @@ Response berisi link / deeplink pembayaran (`OVO`, `DANA`, `SHOPEEPAY`, `LINKAJA
 ```bash
 curl -X POST .../api/v2/payments/invoice \
   -H "X-API-Key: $SARANA_API_KEY" -H "Content-Type: application/json" \
-  -d '{ "client_id": 123, "amount": 250000 }'
+  -d '{ "app_id": 45, "amount": 250000 }'
 ```
 
 ### Cek status pembayaran
@@ -142,7 +153,37 @@ curl .../api/v2/payments/{id}/status -H "X-API-Key: $SARANA_API_KEY"
 
 Daftar metode tersedia: `GET .../api/v2/payments/methods`.
 
-## 5. Menghitung biaya (fees)
+## 5. Apps
+
+Satu client bisa punya **banyak apps**. Tiap app punya `transaction_fee` sendiri,
+jadi saat membuat pembayaran Anda perlu menyebut **app mana** lewat `app_id` (wajib
+bila app lebih dari satu). Ambil daftar app milik Anda:
+
+```bash
+curl .../api/v2/apps -H "X-API-Key: $SARANA_API_KEY"
+```
+
+Response (`client_id` otomatis dari key — tidak perlu dikirim):
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 12,
+      "app_id": 45,
+      "type": "Production",
+      "url": "https://toko-anda.com",
+      "app": { "id": 45, "kode": "APP-XYZ", "name": "Toko XYZ", "jenis": "B2B" }
+    }
+  ]
+}
+```
+
+Pakai `app_id` dari sini di request pembayaran. Bila client hanya punya satu app,
+`app_id` boleh dikosongkan — sistem memakai satu-satunya app itu.
+
+## 6. Menghitung biaya (fees)
 
 Hitung biaya sebelum membuat transaksi:
 
@@ -156,7 +197,7 @@ Endpoint fee lain: `/fees/rates`, `/fees/calculate/bulk`, `/fees/calculate/vat`,
 `/fees/calculate/withdrawal`, `/fees/calculate/amount-to-pay`. Lihat Swagger untuk
 parameter masing-masing.
 
-## 6. Transaksi & saldo
+## 7. Transaksi & saldo
 
 ```bash
 # List transaksi (paginated: ?page=1&per_page=20)
@@ -172,7 +213,7 @@ curl .../api/v2/transactions/external/{externalId} -H "X-API-Key: $SARANA_API_KE
 curl .../api/v2/clients/{id}/balance -H "X-API-Key: $SARANA_API_KEY"
 ```
 
-## 7. Penarikan dana (withdrawals) & settlement
+## 8. Penarikan dana (withdrawals) & settlement
 
 ```bash
 # Buat penarikan
@@ -194,17 +235,18 @@ Daftar bank untuk penarikan: `GET .../api/v2/bank-channels/active`.
 
 > Bentuk body persis (field opsional, validasi norek/bank) ada di Swagger.
 
-## 8. Webhook / callback
+## 9. Webhook / callback
 
 Sarana mengirim notifikasi status ke endpoint Anda. Jenis callback yang tersedia
 (lihat Swagger bagian *Callbacks*): pembayaran, transaksi, withdrawal, disbursement.
 Verifikasi setiap callback dengan token webhook yang dikonfigurasi, lalu **selalu**
 balas cepat (`2xx`) dan proses secara asinkron.
 
-## 9. Ringkas
+## 10. Ringkas
 
-1. Dapatkan API key (portal bila punya akses developer, atau minta admin).
-2. Kirim `X-API-Key` di setiap request ke `…/api/v2/…`.
-3. Buat pembayaran → tampilkan instruksi ke pembeli → tunggu callback / poll status.
-4. Tarik saldo via `/withdrawals`.
-5. Referensi lengkap & coba langsung: [`/api/v2/docs`](https://api.internal-go.saranatechnology.com/api/v2/docs).
+1. Dapatkan API key (portal bila punya akses developer, atau minta admin). Satu key per-client untuk semua apps.
+2. Kirim `X-API-Key` di setiap request ke `…/api/v2/…`. `client_id` otomatis dari key.
+3. Ambil `app_id` via `GET /api/v2/apps`; sertakan di request pembayaran bila app lebih dari satu.
+4. Buat pembayaran → tampilkan instruksi ke pembeli → tunggu callback / poll status.
+5. Tarik saldo via `/withdrawals`.
+6. Referensi lengkap & coba langsung: [`/api/v2/docs`](https://api.internal-go.saranatechnology.com/api/v2/docs).
