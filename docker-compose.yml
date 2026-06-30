@@ -1,0 +1,11 @@
+services:
+  sarana-landing:
+    image: 481534398414.dkr.ecr.ap-southeast-1.amazonaws.com/fe-sarana-public:production-latest
+    container_name: sarana-landing
+    restart: unless-stopped
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
